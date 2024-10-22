@@ -13,28 +13,32 @@ public class Station { //a class that represents a metro station
         this.next = null;
     }
     public String toString() {
-        return "STATION" + " " + name + ":" + " " + line + "line, in service:" + " " + inService + "," + " " + "previous station:" + " " + prev + "," + "next station:" + " " + next;
+        String prevname = (prev != null) ? prev.name : "none";
+        String nextname = (next != null) ? next.name : "none";
+        return "STATION" + " " + name + ":" + " " + line + " " + "line, in service:" + " " + isAvailable() + "," + " " + "previous station:" + " " + prevname + "," + " "+ "next station:" + " " + nextname;
     }
     public void addNext (Station next) {
         this.next = next;
+        if (next != null) {
         next.prev = this;
+        }
     }
     public void addPrev (Station prev) {
         this.prev = prev;
-        prev.prev = this;
+        prev.next = this;
     }
     public boolean isAvailable () {
         return this.inService;
     }
     public boolean switchAvailable () {
-        return !this.inService;
+        return this.inService = !this.inService;
     }
     public void connect (Station a) {
         this.addNext(a);
     }
-    public Station getNext() {
-        return this.next;
-    }
+    // public Station getNext() {
+    //     return this.next;
+    // }
   
     public int tripLength (Station a) {
        if (a == null || !this.isAvailable() || !a.isAvailable()) {

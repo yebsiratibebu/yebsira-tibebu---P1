@@ -14,7 +14,7 @@ public class EndStation extends Station { //inherits end station
     public String toString() {
         String prevname = (prev != null) ? prev.name : "none";
         String nextname = (next != null) ? next.name : "none";
-        return "ENDSTATION" + " " + name + ":" + " " + line + " " + "line, in service:" + " " + isAvailable() + "," + " " + "previous station:" + " " + prevname + "," + " "+ "next station:" + " " + nextname;
+        return "ENDSTATION" + " " + name + ":" + " " + line + " " + "line, in service:" + " " + this.inService + "," + " " + "previous station:" + " " + prevname + "," + " "+ "next station:" + " " + nextname;
     
     }
 }

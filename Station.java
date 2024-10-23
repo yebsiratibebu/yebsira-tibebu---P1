@@ -4,6 +4,7 @@ public class Station { //a class that represents a metro station
     public boolean inService;
     public Station prev;
     public Station next;
+   
 
     public Station (String line, String name) {
         this.line = line;
@@ -56,6 +57,15 @@ public class Station { //a class that represents a metro station
     }
     return -1;
 }
+public boolean equals (Station a) {
+    if(this.line == a.line && this.name == a.name) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
+}
+
 
 

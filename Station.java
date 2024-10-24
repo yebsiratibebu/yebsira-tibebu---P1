@@ -79,7 +79,7 @@ public class Station { //a class that represents a metro station
             }
             
         }
-        System.out.println("curr station:" + curr + ", count:" + count);
+        //System.out.println("curr station:" + curr + ", count:" + count);
         return tripLengthhelper(destination, count +1, curr.next, visitedStations); 
     }
     
@@ -93,7 +93,7 @@ public class Station { //a class that represents a metro station
     if (this.next == null) {
         return -1;
     }
-    System.out.println("curr station:" + curr + ", count:" + count);
+    //System.out.println("curr station:" + curr + ", count:" + count);
     ArrayList <Station> visitedStations = new ArrayList<>();
     return tripLengthhelper(destination,0, this, visitedStations);
 }

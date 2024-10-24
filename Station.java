@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Station { //a class that represents a metro station
     public String line;
     public String name;
@@ -51,37 +53,34 @@ public class Station { //a class that represents a metro station
    //go to the beginning station and recursively call 
    //when youre at the transfer station you will have to recursively check all of the transfer paths
 
-    public int tripLengthhelper (Station destination, int count, Station curr) {
+    public int tripLengthhelper (Station destination, int count, Station curr, ArrayList <Station> visitedStations) {
         if(curr.equals(destination)) {
             return count;
         }
         if(curr.next == null) {
             return -1;
         }
-
-        if(curr instanceof TransferStation) {
-            //String desline = destination.getline();
-            if(curr.getline().equals(destination.getline())) {
-                //System.out.println("curr station:" + curr + ", count:" + count);
-            int result = tripLengthhelper (destination, count + 1, curr.next);
-            if (result != -1) {
-                return result;
+        if (visitedStations.contains(curr)) {
+            return -1;
+        }
+        visitedStations.add(curr);
+        if (curr instanceof TransferStation) {
+            TransferStation transfer = (TransferStation) curr;
+            for (int i=0; i < transfer.otherStations.size(); i++) {
+                Station station = transfer.otherStations.get(i);
+                if(station.getline().equals(destination.getline())) {
+                    int result = tripLengthhelper (destination, count + 1, station, visitedStations);
+                    if (result != -1) {
+                        return result;
+                    }
             }
+            //String desline = destination.getline();
+            
             }
             
-            TransferStation transfer = (TransferStation) curr;
-            for (int i =0;  i<transfer.otherStations.size(); i++) {
-                Station trans = transfer.otherStations.get(i);
-                int result = tripLengthhelper (destination, count + 1, trans);
-                if (result != -1) {
-                    return result;
-                }
-            }
-            return -1; 
-            //return tripLengthhelper(destination, count +1, curr.next); 
         }
-        //System.out.println("curr station:" + curr + ", count:" + count);
-        return tripLengthhelper(destination, count +1, curr.next);
+        System.out.println("curr station:" + curr + ", count:" + count);
+        return tripLengthhelper(destination, count +1, curr.next, visitedStations); 
     }
     
     public int tripLength (Station destination) {
@@ -94,8 +93,9 @@ public class Station { //a class that represents a metro station
     if (this.next == null) {
         return -1;
     }
-    //System.out.println("curr station:" + curr + ", count:" + count);
-    return tripLengthhelper(destination,count + 1, this.next);
+    System.out.println("curr station:" + curr + ", count:" + count);
+    ArrayList <Station> visitedStations = new ArrayList<>();
+    return tripLengthhelper(destination,0, this, visitedStations);
 }
 public boolean equals (Station a) {
     if(this.line == a.line && this.name == a.name) {

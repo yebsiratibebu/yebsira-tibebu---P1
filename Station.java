@@ -20,13 +20,15 @@ public class Station { //a class that represents a metro station
     }
     public void addNext (Station next) {
         this.next = next;
-        if (next != null) {
+        if (next.prev == null) {
         next.prev = this;
         }
     }
     public void addPrev (Station prev) {
         this.prev = prev;
+        if (prev.next == null) {
         prev.next = this;
+        }
     }
     public boolean isAvailable () {
         return this.inService;
@@ -36,26 +38,64 @@ public class Station { //a class that represents a metro station
     }
     public void connect (Station a) {
         this.addNext(a);
+        a.addPrev(this);
     }
-    // public Station getNext() {
-    //     return this.next;
-    // }
-  
-    public int tripLength (Station a) {
-       if (a == null || !this.isAvailable() || !a.isAvailable()) {
-       return -1;
+    public String getline() {
+        return line;
     }
-    if (this == a) {
-        return 0;
-    }
-    if (this.next != null) {
-        int len = this.next.tripLength(a);
+   
     
-    if (len != -1) {
-        return 1 + len;
+   //base case: station and destionation
+   //bases case is when is when you stop at your destination
+   //create a helpre method
+   //go to the beginning station and recursively call 
+   //when youre at the transfer station you will have to recursively check all of the transfer paths
+
+    public int tripLengthhelper (Station destination, int count, Station curr) {
+        if(curr.equals(destination)) {
+            return count;
+        }
+        if(curr.next == null) {
+            return -1;
+        }
+
+        if(curr instanceof TransferStation) {
+            //String desline = destination.getline();
+            if(curr.getline().equals(destination.getline())) {
+                //System.out.println("curr station:" + curr + ", count:" + count);
+            int result = tripLengthhelper (destination, count + 1, curr.next);
+            if (result != -1) {
+                return result;
+            }
+            }
+            
+            TransferStation transfer = (TransferStation) curr;
+            for (int i =0;  i<transfer.otherStations.size(); i++) {
+                Station trans = transfer.otherStations.get(i);
+                int result = tripLengthhelper (destination, count + 1, trans);
+                if (result != -1) {
+                    return result;
+                }
+            }
+            return -1; 
+            //return tripLengthhelper(destination, count +1, curr.next); 
+        }
+        //System.out.println("curr station:" + curr + ", count:" + count);
+        return tripLengthhelper(destination, count +1, curr.next);
     }
+    
+    public int tripLength (Station destination) {
+    int count = 0;
+    Station curr = this;
+
+    if (this.equals(destination)) {
+        return count;
     }
-    return -1;
+    if (this.next == null) {
+        return -1;
+    }
+    //System.out.println("curr station:" + curr + ", count:" + count);
+    return tripLengthhelper(destination,count + 1, this.next);
 }
 public boolean equals (Station a) {
     if(this.line == a.line && this.name == a.name) {

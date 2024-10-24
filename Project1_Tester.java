@@ -25,6 +25,7 @@ public class Project1_Tester {
     expected = "STATION Museum: pink line, in service: true, previous station: Plaza, next station: Square";
     assertEquals(expected, s1.toString());
     expected = "STATION Plaza: blue line, in service: true, previous station: none, next station: Museum";
+    System.out.println(s3.next.name);
     assertEquals(expected, s3.toString());
 
     assertEquals(true, s1.isAvailable());
@@ -215,6 +216,7 @@ public class Project1_Tester {
     expected = "TRANSFERSTATION Metro Center: orange/red/purple line, in service: true, previous station: McPherson Square, next station: Federal Triangle\n" +
                     "\tTransfers: \n\tSTATION Farragut North: red line, in service: true, previous station: Dupont Circle, next station: Metro Center\n" + 
                     "\tSTATION Gallery Place: red line, in service: true, previous station: Metro Center, next station: Judiciary Square\n";
+    System.out.println(next.toString());
     assertEquals(expected, next.toString());
     next = ((TransferStation) next).otherStations.get(1);
     expected = "STATION Gallery Place: red line, in service: true, previous station: Metro Center, next station: Judiciary Square";
